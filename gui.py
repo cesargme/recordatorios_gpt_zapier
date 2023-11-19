@@ -1,10 +1,11 @@
 import PySimpleGUI as sg
 import gpt
 import zapier
+import os
 
 # Diseño de la interfaz gráfica
 
-webhook_url = "https://hooks.zapier.com/hooks/catch/16094301/3kms78k/"
+webhook_url = os.getenv("ZAPIER_WEBHOOK_RECODATORIOS")
 
 # prompt = "recuérdame ver mi carpeta mañana a las 3 de la tarde"
 prompt = ""
