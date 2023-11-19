@@ -2,6 +2,7 @@ import openai
 import os
 import json
 from datetime import date
+from datetime import timedelta
 
 usar_gpt_4 = False
 
@@ -22,7 +23,7 @@ def str_to_dict(func):
 
 
 @str_to_dict
-def procesar_texto_con_gpt4(texto):
+def extraer_detalles_evento(texto):
     openai.api_key = os.getenv("OPENAI_API_KEY")
 
     prompt = f"""
@@ -30,7 +31,8 @@ def procesar_texto_con_gpt4(texto):
     Extraer los detalles del evento en formato de diccionario. Incluir hora de inicio, hora de fin y resumen del evento. Formatear las fechas y horas en formato ISO 8601 (AAAA-MM-DDThh:mm:ss).
     
     Contexto:
-    Hoy es {date.today()}
+    Hoy es: {date.today()}
+    mañana es: {date.today() + timedelta(days=1)}
 
     Ejemplo de salida esperada:
     {{
@@ -58,7 +60,7 @@ def procesar_texto_con_gpt4(texto):
 
 if __name__ == "__main__":
     # Ejemplo de uso
-    texto = "Recuérdame que debo de llenar mi tanque de agua a las 6 de la tarde mañana"
-    detalles_evento = procesar_texto_con_gpt4(texto)
+    texto = "recuardame llamar a mi mamá mañana a las 3 de la tarde"
+    detalles_evento = extraer_detalles_evento(texto)
     print(detalles_evento)
     print(type(detalles_evento))

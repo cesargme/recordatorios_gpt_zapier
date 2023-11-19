@@ -1,9 +1,13 @@
 import PySimpleGUI as sg
 import gpt
+import zapier
 
 # Diseño de la interfaz gráfica
 
-prompt = "recuardame llamar a mi mamá mañana a las 3 de la tarde"
+webhook_url = "https://hooks.zapier.com/hooks/catch/16094301/3kms78k/"
+
+# prompt = "recuérdame ver mi carpeta mañana a las 3 de la tarde"
+prompt = ""
 
 layout = [
     [sg.Text("Ingrese el texto del recordatorio (máximo 3 líneas):")],
@@ -22,7 +26,10 @@ while True:
     if event == 'Enviar':
         texto = values['texto']
         # Aquí iría el código para procesar el texto con GPT-4 y enviar a Zapier
-        respuesta = gpt.procesar_texto_con_gpt4(texto=texto)
-        sg.popup("Texto recibido:", respuesta)  # Solo para propósitos de demostración
+        detalles_evento = gpt.extraer_detalles_evento(texto=texto)
+        datos = {'evento': detalles_evento}
+        status, response = zapier.enviar_a_zapier_webhook(datos, webhook_url)
+       
+        sg.popup("Se envió a zapier para que lo ponga en el 📅 Calendario.", )  # Solo para propósitos de demostración
 
 window.close()
